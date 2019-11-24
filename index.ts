@@ -8,15 +8,10 @@ declare global {
         toggleSound: any;
     }
 }
-const xElem: HTMLElement = document.querySelector('#x');
-const yElem: HTMLElement = document.querySelector('#y');
-const zElem: HTMLElement = document.querySelector('#z');
 const alphaElem: HTMLElement = document.querySelector('#alpha')
 const betaElem: HTMLElement = document.querySelector('#beta');
 const gammaElem: HTMLElement = document.querySelector('#gamma');
 const btn: HTMLElement = document.querySelector('#main-btn')
-
-const distanceElem: HTMLElement = document.querySelector('#distance');
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audio = new AudioContext;
@@ -36,11 +31,13 @@ function toggleSound() {
     }
     lvl.gain.value = 1;
     muted = false;
-    btn.innerHTML = 'turn that shit off'
+    btn.classList.add('active');
+    btn.innerHTML = 'Turn that shit off!';
   } else {
     lvl.gain.value = 0;
     muted = true;
-    btn.innerHTML = 'start'
+    btn.classList.remove('active');
+    btn.innerHTML = 'Start';
   }
 }
 
@@ -52,13 +49,8 @@ function handler(event: DeviceOrientationEvent) {
   const ratio = (87 - beta) / 86
   const fv = (55 + (1705 * ratio)); // 5 octaves between C1 and C6
   osc.frequency.value = fv;
-  // alphaElem.innerHTML = alpha ? alpha.toString() : '';
   betaElem.innerHTML = beta ? beta.toString() : '';
   gammaElem.innerHTML = gamma ? gamma.toString() : '';
-}
-
-function getDistance(a: number, t: number): number {
-  return 0.5 * a * Math.pow(t, 2);
 }
 
 window.addEventListener('deviceorientation', handler);
