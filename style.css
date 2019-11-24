@@ -1,0 +1,21 @@
+h1, h2 {
+  font-family: Lato;
+}
+
+.btn {
+  border: 1px solid blue;
+  border-radius: 5px;
+  background-color: lightcyan;
+  height: 35px;
+  width: 100px;
+  padding: 10px;
+  text-align: center;
+}
+
+.on {
+    background-color: lightcyan;
+}
+
+.off {
+  background-color: coral;
+}
