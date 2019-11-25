@@ -8,10 +8,9 @@ declare global {
         toggleSound: any;
     }
 }
-const alphaElem: HTMLElement = document.querySelector('#alpha')
-const betaElem: HTMLElement = document.querySelector('#beta');
-const gammaElem: HTMLElement = document.querySelector('#gamma');
+
 const btn: HTMLElement = document.querySelector('#main-btn')
+const consoleElem: HTMLElement = document.querySelector('#console');
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audio = new AudioContext;
@@ -49,8 +48,18 @@ function handler(event: DeviceOrientationEvent) {
   const ratio = (87 - beta) / 86
   const fv = (55 + (1705 * ratio)); // 5 octaves between C1 and C6
   osc.frequency.value = fv;
-  betaElem.innerHTML = beta ? beta.toString() : '';
-  gammaElem.innerHTML = gamma ? gamma.toString() : '';
 }
 
-window.addEventListener('deviceorientation', handler);
+// @ts-ignore
+if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+  // @ts-ignore
+  DeviceOrientationEvent.requestPermission()
+  .then(response => {
+    if (response == 'granted') {
+      window.addEventListener('deviceorientation', handler);
+    }
+  })
+  .catch(console.error)
+} else {
+  window.addEventListener('deviceorientation', handler);
+}
