@@ -25,9 +25,25 @@ let started = false;
 function toggleSound() {
   if (muted) {
     if (!started) {
-      osc.start(0);
-      started = true;
+      // @ts-ignore
+      if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        // @ts-ignore
+        DeviceOrientationEvent.requestPermission()
+        .then(response => {
+          if (response == 'granted') {
+            window.addEventListener('deviceorientation', handler);
+            osc.start(0);
+            started = true;
+          }
+        })
+        .catch(console.error)
+      } else {
+        window.addEventListener('deviceorientation', handler);
+        osc.start(0);
+        started = true;
+      }
     }
+    
     lvl.gain.value = 1;
     muted = false;
     btn.classList.add('active');
