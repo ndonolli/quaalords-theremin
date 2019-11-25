@@ -10,7 +10,6 @@ declare global {
 }
 
 const btn: HTMLElement = document.querySelector('#main-btn')
-const consoleElem: HTMLElement = document.querySelector('#console');
 
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 let audio = new AudioContext;
@@ -43,7 +42,7 @@ function toggleSound() {
         started = true;
       }
     }
-    
+
     lvl.gain.value = 1;
     muted = false;
     btn.classList.add('active');
@@ -64,18 +63,4 @@ function handler(event: DeviceOrientationEvent) {
   const ratio = (87 - beta) / 86
   const fv = (55 + (1705 * ratio)); // 5 octaves between C1 and C6
   osc.frequency.value = fv;
-}
-
-// @ts-ignore
-if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-  // @ts-ignore
-  DeviceOrientationEvent.requestPermission()
-  .then(response => {
-    if (response == 'granted') {
-      window.addEventListener('deviceorientation', handler);
-    }
-  })
-  .catch(console.error)
-} else {
-  window.addEventListener('deviceorientation', handler);
 }
